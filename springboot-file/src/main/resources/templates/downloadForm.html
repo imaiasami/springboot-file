@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h2>[ 파일 다운로드 ]</h2>
+	<div th:text="|currentPage: ${navigator.currentPage}|"></div>
+	<div th:text="|pagePerGroup: ${navigator.pagePerGroup}|"></div>
+	<table>
+		<tr>
+			<th>NO</th>
+			<th>파일명</th>
+			<th>다운로드</th>
+		</tr>
+		<tr th:each="file:${files}">
+			<td th:text=${file.id}></td>
+			<td th:text=${file.originalFile}></td>
+			<td><a th:href="@{/download/{id}(id=${file.id})}">다운로드</a></td>
+		</tr>
+	</table>
+	<div>
+		<!--  이전 그룹 이동 -->
+		<a
+			th:href="@{/download(page=${navigator.currentPage - navigator.pagePerGroup})}"><<</a>&nbsp;&nbsp;
+		<!--  이전 페이지 이동 -->
+		<a th:href="@{/download(page=${navigator.currentPage - 1})}"><</a>&nbsp;&nbsp;
+
+
+		<th:block
+			th:each="counter : ${#numbers.sequence(navigator.startPageGroup, navigator.endPageGroup)}">
+			<a th:href="@{/download/(page=${counter})}" th:text="${counter}"></a>&nbsp;&nbsp;
+
+		</th:block>
+
+		<!--  다음 페이지 이동 -->
+		<a th:href="@{/download(page=${navigator.currentPage + 1})}">></a>&nbsp;&nbsp;
+		<!--  다음 그룹 이동 -->
+		<a
+			th:href="@{/download(page=${navigator.currentPage + navigator.pagePerGroup})}">>></a>&nbsp;&nbsp;
+	</div>
+</body>
+</html>
